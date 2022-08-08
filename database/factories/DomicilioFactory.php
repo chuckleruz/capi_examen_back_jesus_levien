@@ -16,27 +16,17 @@ class DomicilioFactory extends Factory
      */
     public function definition()
     {
+
         $query = "SELECT us.id
-            FROM users as us";
+        FROM users as us";
 
-        $data = DB::select($query);
-        
-        $datas = json_encode($data);
-        
-        foreach($data as $key=>$op){
-
-            $userId = $op['id'];
-            return [
-                'user_id'=>$userId,
-                'domicilio'=>'Sin rumbo',
-                'numero_exterior'=>1,
-                'colonia'=>'Lomas',
-                'cp'=>12345,
-                'ciudad'=>'Monterrey',
-            ];
-        }
-       
-
-       
+        return [
+        'user_id'=> $this->faker->unique()->numberBetween(1, count(DB::select($query))),
+        'domicilio'=> $this->faker->address,
+        'numero_exterior'=>  $this->faker->randomNumber(2),
+        'colonia'=> $this->faker->city,
+        'cp'=>  $this->faker->randomNumber(5),
+        'ciudad'=>$this->faker->state,
+        ];   
     }
 }
